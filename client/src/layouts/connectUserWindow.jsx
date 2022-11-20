@@ -27,7 +27,11 @@ const ConnectUserWindow = ({ value, connect, setUserName, error }) => {
                     id="button-addon2">
                     Join
                 </button>
-                {error && <div className="error">{error}</div>}
+                {error && (
+                    <div class="alert alert-danger" role="alert">
+                        {error}
+                    </div>
+                )}
             </div>
         </div>
     );
