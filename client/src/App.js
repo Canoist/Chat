@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Chat from "./components/chatWindowComponents/chat";
 import RoomList from "./components/dialogsComponents/roomList";
+import ConnectUserWindow from "./layouts/connectUserWindow";
+import Messenger from "./layouts/messenger";
+import reducer from "./utils/reducer";
 import socket from "./utils/socket";
 
 const dialogsBase = [
@@ -20,39 +23,34 @@ const dialogsBase = [
 const dialogs = dialogsBase.slice();
 
 function App() {
-    const [isConnected, setIsConnected] = useState(socket.connected);
     const [dialogCheck, setDialogCheck] = useState(dialogs[0]);
+    const [username, setUsername] = useState("");
+    const [state, dispatch] = useReducer(reducer, { isAuth: false });
+
+    const onLogin = () => {
+        dispatch({
+            type: "IS_AUTH",
+            payload: true,
+        });
+    };
 
     const handleDialogChange = (id) => {
         const dialogId = dialogs.findIndex((c) => c._id === id);
         setDialogCheck(dialogs[dialogId]);
     };
 
-    useEffect(() => {
-        socket.on("connect", () => {
-            setIsConnected(true);
-        });
-
-        socket.on("disconnect", () => {
-            setIsConnected(false);
-        });
-
-        return () => {
-            socket.off("connect");
-            socket.off("disconnect");
-            socket.off("pong");
-        };
-    }, []);
-
-    return (
-        <div className="messenger">
-            <RoomList dialogs={dialogs} toggleDialog={handleDialogChange} />
-            <Chat
-                dialog={dialogCheck}
-                socket={socket}
-                connected={isConnected}
-            />
-        </div>
+    return state.isAuth ? (
+        <Messenger
+            dialogs={dialogs}
+            handleDialogChange={handleDialogChange}
+            dialogCheck={dialogCheck}
+        />
+    ) : (
+        <ConnectUserWindow
+            value={username}
+            setUserName={setUsername}
+            connect={onLogin}
+        />
     );
 }
 

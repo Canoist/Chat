@@ -1,16 +1,9 @@
 import React from "react";
+import socket from "../../utils/socket";
 // import ChatWrapper from "./chatWrapper";
 import InputMessage from "./inputMessage";
 
-const Chat = ({
-    dialog,
-    connected,
-    username,
-    socket,
-    value,
-    resetValue,
-    ...rest
-}) => {
+const Chat = ({ dialog, username, value, resetValue, ...rest }) => {
     const sendMessage = () => {
         const message = {
             username,
@@ -23,17 +16,15 @@ const Chat = ({
     };
 
     return (
-        connected && (
-            <div className="chat px-2">
-                <nav>{dialog.name}</nav>
-                {/* <ChatWrapper {...rest} username={username} /> */}
-                <InputMessage
-                    value={value}
-                    setValue={resetValue}
-                    sendMessage={sendMessage}
-                />
-            </div>
-        )
+        <div className="chat px-2">
+            <nav>{dialog.name}</nav>
+            {/* <ChatWrapper {...rest} username={username} /> */}
+            <InputMessage
+                value={value}
+                setValue={resetValue}
+                sendMessage={sendMessage}
+            />
+        </div>
     );
 };
 export default Chat;
