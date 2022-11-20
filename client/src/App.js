@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import Chat from "./components/chatWindowComponents/chat";
 import RoomList from "./components/dialogsComponents/roomList";
-
-const socket = io("http://localhost:8000");
+import socket from "./utils/socket";
 
 const dialogsBase = [
     {
