@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useReducer } from "react";
-import Chat from "./components/chatWindowComponents/chat";
-import RoomList from "./components/dialogsComponents/roomList";
+import React, { useState, useReducer } from "react";
 import ConnectUserWindow from "./layouts/connectUserWindow";
 import Messenger from "./layouts/messenger";
+import roomsService from "./services/roomsService";
 import reducer from "./utils/reducer";
-import socket from "./utils/socket";
 
 const dialogsBase = [
     {
@@ -23,8 +21,10 @@ const dialogsBase = [
 const dialogs = dialogsBase.slice();
 
 function App() {
+    const [data, setData] = useState();
     const [dialogCheck, setDialogCheck] = useState(dialogs[0]);
     const [username, setUsername] = useState("");
+    const [error, setError] = useState("");
     const [state, dispatch] = useReducer(reducer, { isAuth: false });
 
     const onLogin = () => {
@@ -32,6 +32,25 @@ function App() {
             type: "IS_AUTH",
             payload: true,
         });
+    };
+
+    const handleChange = (value) => {
+        setUsername(value);
+        setError("");
+    };
+
+    const handleLogin = async () => {
+        if (username.length < 2) {
+            setError("Username sholud be more than 1 symbols");
+            return;
+        }
+        try {
+            const data = await roomsService.post({ username });
+            console.log(data);
+            onLogin();
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     const handleDialogChange = (id) => {
@@ -48,8 +67,9 @@ function App() {
     ) : (
         <ConnectUserWindow
             value={username}
-            setUserName={setUsername}
-            connect={onLogin}
+            setUserName={handleChange}
+            connect={handleLogin}
+            error={error}
         />
     );
 }

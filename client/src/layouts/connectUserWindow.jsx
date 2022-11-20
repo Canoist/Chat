@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ConnectUserWindow = ({ value, connect, setUserName }) => {
+const ConnectUserWindow = ({ value, connect, setUserName, error }) => {
     const connectWithEnter = (event) => {
         if (event.code === "Enter") {
             event.preventDefault();
@@ -27,6 +27,7 @@ const ConnectUserWindow = ({ value, connect, setUserName }) => {
                     id="button-addon2">
                     Join
                 </button>
+                {error && <div className="error">{error}</div>}
             </div>
         </div>
     );
@@ -34,6 +35,7 @@ const ConnectUserWindow = ({ value, connect, setUserName }) => {
 
 ConnectUserWindow.propTypes = {
     value: PropTypes.string,
+    error: PropTypes.string,
     connect: PropTypes.func,
     setUserName: PropTypes.func,
 };
