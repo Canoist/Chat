@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+.username-enter {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 8;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+.username-enter .input-group {
+    width: 50%;
+    margin: 0 auto;
+}
+.messenger {
+    display: flex;
+    width: 100vw;
+    margin: 0 auto;
+}
+.room-list {
+    background-color: rgba(48, 48, 48, 0.808);
+    min-width: 20vw;
+    height: 100vh;
+    align-items: center;
+}
+.room-list-item {
+    width: 80%;
+}
+.room-list p {
+    margin: 5px auto;
+    font-weight: 600;
+}
+.chat {
+    background-color: rgba(0, 0, 0, 0.753);
+    flex-grow: 1;
+    height: 100vh;
+}
+.chat nav {
+    background-color: rgba(208, 255, 0, 0.705);
+    border: solid 2px darkblue;
+    border-radius: 15px;
+    padding: 5px 15px;
+    margin: 5px 0;
+    display: inline-block;
+    height: 7vh;
+}
+.chat-wrapper {
+    width: 100%;
+    padding-top: 40px;
+    height: 78vh;
+    overflow-y: scroll;
+}
+.chat__wrapper__user-connect {
+    text-align: center;
+}
+.chat-wrapper__message {
+    font-size: 12px;
+}
+.chat-wrapper__message p {
+    margin: 0;
+}
+.chat-wrapper__message p:first-child {
+    padding-top: 1.5rem;
+    text-decoration: underline;
+}
+.message {
+    font-weight: 600;
+    text-align: left;
+    cursor: text;
+    -webkit-user-select: text;
+    user-select: text;
+}
+.footer {
+    position: absolute;
+    width: 75vw;
+    z-index: 8;
+    bottom: 7px;
+}
+.right-side {
+    text-align: end;
+}

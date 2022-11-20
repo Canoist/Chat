@@ -15,11 +15,16 @@ const io = new Server(server, {
     },
 });
 
+const rooms = new Map();
+
+app.get("/rooms", (req, res) => {
+    res.json(rooms);
+});
+
 io.on("connection", (socket) => {
-    console.log("a user connected");
-    socket.on("ping", () => {
+    console.log("a user connected", socket.id);
+    socket.on("connection", () => {
         console.log("ping");
-        socket.emit("pong");
     });
 });
 
@@ -27,5 +32,5 @@ server.listen(PORT, (err) => {
     if (err) {
         throw Error(err);
     }
-    console.log("listening on " + PORT);
+    console.log("Server has been started on port " + PORT);
 });
