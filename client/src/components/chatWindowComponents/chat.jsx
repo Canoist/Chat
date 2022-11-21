@@ -5,13 +5,13 @@ import InputMessage from "./inputMessage";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const Chat = ({ room, userName }) => {
+const Chat = ({ room, state }) => {
     const [messageList, setMessageList] = useState(room.roomData.messages);
     const [message, setMessage] = useState();
     console.log("from Chat", room);
     const sendMessage = () => {
         const dataMessage = {
-            userName,
+            userName: state.userName,
             message,
             id: Date.now(),
             event: "message",
@@ -27,7 +27,7 @@ const Chat = ({ room, userName }) => {
     return (
         <div className="chat px-2">
             <nav>{room.roomId}</nav>
-            <MessageWrapper messages={messageList} userName={userName} />
+            <MessageWrapper messages={messageList} userName={state.userName} />
             <InputMessage
                 value={message}
                 onChange={handleChange}
@@ -39,7 +39,7 @@ const Chat = ({ room, userName }) => {
 
 Chat.propTypes = {
     room: PropTypes.object,
-    userName: PropTypes.string,
+    state: PropTypes.object,
 };
 
 export default Chat;

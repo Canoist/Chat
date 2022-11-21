@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import Message from "./message";
 import PropTypes from "prop-types";
 import socket from "../../utils/socket";
+import { useEffect } from "react";
 
 const MessageWrapper = ({ messages, userName }) => {
     const [templateMessages, setTemplateMessages] = useState([]);
-    socket.on("ROOM:JOINED", (users) => {
-        setTemplateMessages((prev) => [
-            ...prev,
-            `Пользователь ${users[users.length - 1].user} подключился`,
-        ]);
-    });
+
+    useEffect(() => {
+        socket.on("ROOM:JOINED", (users) => {
+            setTemplateMessages((prev) => [
+                ...prev,
+                `Пользователь ${users[users.length - 1].user} подключился`,
+            ]);
+        });
+    }, []);
+
     return (
         <div className="message-wrapper">
             {!!templateMessages.length &&

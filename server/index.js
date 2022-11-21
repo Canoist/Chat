@@ -37,6 +37,7 @@ io.on("connection", (socket) => {
     console.log("a user connected", socket.id);
     socket.on("ROOM:JOIN", ({ roomId, userName }) => {
         socket.join(roomId);
+        console.log("coonected ", userName);
         const index = rooms.findIndex((room) => room.roomId === roomId);
         const users = rooms[index].roomData.users;
         users.push({

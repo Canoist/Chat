@@ -46,8 +46,7 @@ function App() {
     return state.joined ? (
         <Messenger
             rooms={rooms}
-            userName={state.userName}
-            roomId={state.roomId}
+            state={state}
         />
     ) : (
         <ConnectUserWindow
