@@ -1,21 +1,22 @@
 import React from "react";
-import socket from "../../utils/socket";
-// import ChatWrapper from "./chatWrapper";
+// import socket from "../../utils/socket";
+import MessageWrapper from "./messageWrapper";
 import InputMessage from "./inputMessage";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const Chat = ({ room }) => {
+const Chat = ({ room, userName }) => {
+    const [messageList, setMessageList] = useState(room.roomData.messages);
     const [message, setMessage] = useState();
     console.log("from Chat", room);
     const sendMessage = () => {
         const dataMessage = {
-            // userName,
+            userName,
             message,
             id: Date.now(),
             event: "message",
         };
-        socket.emit("message", JSON.stringify(dataMessage));
+        // socket.emit("message", JSON.stringify(dataMessage));
         setMessage("");
     };
 
@@ -26,7 +27,7 @@ const Chat = ({ room }) => {
     return (
         <div className="chat px-2">
             <nav>{room.roomId}</nav>
-            {/* <ChatWrapper {...rest} userName={userName} /> */}
+            <MessageWrapper messages={messageList} userName={userName} />
             <InputMessage
                 value={message}
                 onChange={handleChange}
@@ -38,6 +39,7 @@ const Chat = ({ room }) => {
 
 Chat.propTypes = {
     room: PropTypes.object,
+    userName: PropTypes.string,
 };
 
 export default Chat;

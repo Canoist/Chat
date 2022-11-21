@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
             socketId: socket.id,
             user: userName,
         });
-        socket.broadcast.to(roomId).emit("ROOM:JOINED", rooms);
+        socket.broadcast.to(roomId).emit("ROOM:JOINED", users);
     });
 });
 

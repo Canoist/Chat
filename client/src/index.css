@@ -63,22 +63,22 @@ code {
     margin: 5px 0;
     display: inline-block;
 }
-.chat-wrapper {
+.message-wrapper {
     width: 100%;
     padding-top: 40px;
     height: 78vh;
     overflow-y: scroll;
 }
-.chat__wrapper__user-connect {
+.message-wrapper__user-connect {
     text-align: center;
 }
-.chat-wrapper__message {
+.message-wrapper__message {
     font-size: 12px;
 }
-.chat-wrapper__message p {
+.message-wrapper__message p {
     margin: 0;
 }
-.chat-wrapper__message p:first-child {
+.message-wrapper__message p:first-child {
     padding-top: 1.5rem;
     text-decoration: underline;
 }

@@ -3,7 +3,7 @@ const reducer = (state, action) => {
         case "JOIN":
             return {
                 joined: action.payload.joined,
-                username: action.payload.username,
+                userName: action.payload.userName,
                 roomId: action.payload.roomId,
             };
         default:

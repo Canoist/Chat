@@ -43,10 +43,6 @@ function App() {
         }
     };
 
-    socket.on("ROOM:JOINED", (users) => {
-        console.log("Новый пользователь", users);
-    });
-
     return state.joined ? (
         <Messenger
             rooms={rooms}

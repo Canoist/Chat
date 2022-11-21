@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const Message = ({ data, userName }) => {
     return (
         <div
-            className={`chat-wrapper__message ${
+            className={`message-wrapper__message ${
                 data.userName === userName ? "right-side" : ""
             }`}>
             <p>{data.userName}</p>

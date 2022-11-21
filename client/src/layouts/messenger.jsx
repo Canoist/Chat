@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import RoomList from "../components/dialogsComponents/roomList";
+import RoomList from "../components/roomsComponents/roomList";
 import Chat from "../components/chatWindowComponents/chat";
 import socket from "../utils/socket";
 
@@ -16,7 +16,7 @@ const Messenger = ({ rooms, userName, roomId }) => {
     return (
         <div className="messenger">
             <RoomList rooms={rooms} toggleRoom={handleRoomChange} />
-            <Chat room={currentRoom} />
+            <Chat room={currentRoom} userName={userName} />
         </div>
     );
 };
