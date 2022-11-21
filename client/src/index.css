@@ -41,6 +41,7 @@ code {
     min-width: 20vw;
     height: 100vh;
     align-items: center;
+    overflow: auto;
 }
 .room-list-item {
     width: 80%;

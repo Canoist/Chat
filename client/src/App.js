@@ -37,7 +37,6 @@ function App() {
                 },
             });
             setRooms(rooms);
-            console.log(rooms);
             socket.emit("ROOM:JOIN", { roomId, userName });
         } catch (error) {
             setError(error.message);
@@ -48,11 +47,11 @@ function App() {
         console.log("Новый пользователь", users);
     });
 
-
-
     return state.joined ? (
         <Messenger
             rooms={rooms}
+            userName={state.userName}
+            roomId={state.roomId}
         />
     ) : (
         <ConnectUserWindow

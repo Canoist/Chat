@@ -9,7 +9,6 @@ const roomsService = {
     },
     post: async (payload) => {
         const { data } = await httpService.post(roomsEndPoint, payload);
-        console.log("from post - data: ", data);
         return data;
     },
 };

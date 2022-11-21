@@ -25,7 +25,7 @@ const Chat = ({ room }) => {
 
     return (
         <div className="chat px-2">
-            {/* <nav>{dialog.name}</nav> */}
+            <nav>{room.roomId}</nav>
             {/* <ChatWrapper {...rest} userName={userName} /> */}
             <InputMessage
                 value={message}
