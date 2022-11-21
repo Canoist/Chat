@@ -5,9 +5,15 @@ import PropTypes from "prop-types";
 const RoomList = ({ rooms, toggleRoom }) => {
     return (
         <div className="room-list">
-            {rooms.map((room) => (
-                <Room room={room} key={room.id} toggleRoom={toggleRoom} />
-            ))}
+            {rooms.map((room) => {
+                return (
+                    <Room
+                        roomId={room.roomId}
+                        key={room.roomId}
+                        toggleRoom={toggleRoom}
+                    />
+                );
+            })}
         </div>
     );
 };

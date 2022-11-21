@@ -3,12 +3,14 @@ import socket from "../../utils/socket";
 // import ChatWrapper from "./chatWrapper";
 import InputMessage from "./inputMessage";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-const Chat = () => {
-    const [message, setMessage] = useState("");
+const Chat = ({ room }) => {
+    const [message, setMessage] = useState();
+    console.log("from Chat", room);
     const sendMessage = () => {
         const dataMessage = {
-            userName,
+            // userName,
             message,
             id: Date.now(),
             event: "message",
@@ -34,5 +36,8 @@ const Chat = () => {
     );
 };
 
+Chat.propTypes = {
+    room: PropTypes.object,
+};
 
 export default Chat;

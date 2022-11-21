@@ -1,23 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Room = ({ room, toggleRoom }) => {
+const Room = ({ roomId, toggleRoom }) => {
     return (
         <div>
             <button
                 type="button"
                 className="btn btn-info m-2 room-list-item"
                 onClick={() => {
-                    toggleRoom(room.id);
+                    toggleRoom(roomId);
                 }}>
-                <p>{room.name}</p>
+                <p>{roomId}</p>
             </button>
         </div>
     );
 };
 
 Room.propTypes = {
-    room: PropTypes.object,
+    room: PropTypes.string,
     toggleRoom: PropTypes.func,
 };
 

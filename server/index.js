@@ -16,31 +16,34 @@ const io = new Server(server, {
     },
 });
 
-const rooms = new Map();
+const rooms = [];
 
 app.get("/rooms", (req, res) => {
     res.json(rooms);
 });
 app.post("/rooms", (req, res) => {
-    const { userName } = req.body;
-    const roomId = userName.substring(0, 2) + Date.now();
-    console.log(roomId);
-    rooms.set(
+    let roomId = "Room " + rooms.length;
+    rooms.push({
+        roomId: roomId,
+        roomData: { users: [], messages: [] },
+    });
+    res.json({
+        rooms,
         roomId,
-        new Map([
-            ["users", new Map()],
-            ["messages", []],
-        ])
-    );
-    res.json({ roomId });
+    });
 });
 
 io.on("connection", (socket) => {
     console.log("a user connected", socket.id);
     socket.on("ROOM:JOIN", ({ roomId, userName }) => {
         socket.join(roomId);
-        rooms.get(roomId).get("users").socket(socket.id, userName);
-        console.log("ping");
+        const index = rooms.findIndex((room) => room.roomId === roomId);
+        const users = rooms[index].roomData.users;
+        users.push({
+            socketId: socket.id,
+            user: userName,
+        });
+        socket.broadcast.to(roomId).emit("ROOM:JOINED", rooms);
     });
 });
 

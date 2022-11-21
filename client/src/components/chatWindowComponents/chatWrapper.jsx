@@ -6,17 +6,17 @@ const ChatWrapper = ({ messages, userName }) => {
     return (
         <div className="chat-wrapper">
             {messages
-                .map((mess) =>
-                    mess.event === "connection" ? (
+                .map((message) =>
+                    message.event === "connection" ? (
                         <p
-                            key={mess.id}
+                            key={message.id}
                             className="chat__wrapper__user-connect">
-                            Пользователь {mess.userName} подключился
+                            Пользователь {message.userName} подключился
                         </p>
                     ) : (
                         <Message
-                            key={mess.id}
-                            data={mess}
+                            key={message.id}
+                            data={message}
                             userName={userName}
                         />
                     )

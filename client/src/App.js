@@ -3,27 +3,13 @@ import ConnectUserWindow from "./layouts/connectUserWindow";
 import Messenger from "./layouts/messenger";
 import roomsService from "./services/roomsService";
 import reducer from "./utils/reducer";
-
-const roomsBase = [
-    {
-        _id: 1,
-        name: "Chat 1",
-    },
-    {
-        _id: 2,
-        name: "Chat 2",
-    },
-    {
-        _id: 3,
-        name: "Chat 3",
-    },
-];
-const rooms = roomsBase.slice();
+import socket from "./utils/socket";
 
 function App() {
-    const [dialogCheck, setDialogCheck] = useState(rooms[0]);
+    const [rooms, setRooms] = useState([]);
     const [userName, setUserName] = useState("");
     const [error, setError] = useState("");
+
     const [state, dispatch] = useReducer(reducer, {
         joined: false,
         userName: null,
@@ -41,30 +27,32 @@ function App() {
             return;
         }
         try {
-            const data = await roomsService.post({ userName });
+            const { roomId, rooms } = await roomsService.post({ userName });
             dispatch({
                 type: "JOIN",
                 payload: {
                     joined: true,
                     userName: userName,
-                    roomId: data.roomId,
+                    roomId: roomId,
                 },
             });
+            setRooms(rooms);
+            console.log(rooms);
+            socket.emit("ROOM:JOIN", { roomId, userName });
         } catch (error) {
             setError(error.message);
         }
     };
 
-    const handleRoomChange = (id) => {
-        const roomId = rooms.findIndex((c) => c._id === id);
-        setDialogCheck(rooms[roomId]);
-    };
+    socket.on("ROOM:JOINED", (users) => {
+        console.log("Новый пользователь", users);
+    });
+
+
 
     return state.joined ? (
         <Messenger
             rooms={rooms}
-            toggleRoom={handleRoomChange}
-            dialogCheck={dialogCheck}
         />
     ) : (
         <ConnectUserWindow
