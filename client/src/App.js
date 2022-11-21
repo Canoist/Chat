@@ -21,18 +21,14 @@ const dialogsBase = [
 const dialogs = dialogsBase.slice();
 
 function App() {
-    const [data, setData] = useState();
     const [dialogCheck, setDialogCheck] = useState(dialogs[0]);
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
-    const [state, dispatch] = useReducer(reducer, { isAuth: false });
-
-    const onLogin = () => {
-        dispatch({
-            type: "IS_AUTH",
-            payload: true,
-        });
-    };
+    const [state, dispatch] = useReducer(reducer, {
+        joined: false,
+        username: null,
+        roomId: null,
+    });
 
     const handleChange = (value) => {
         setUsername(value);
@@ -46,8 +42,14 @@ function App() {
         }
         try {
             const data = await roomsService.post({ username });
-            console.log(data);
-            onLogin();
+            dispatch({
+                type: "JOIN",
+                payload: {
+                    joined: true,
+                    username: username,
+                    roomId: data.roomId,
+                },
+            });
         } catch (error) {
             setError(error.message);
         }
@@ -58,7 +60,7 @@ function App() {
         setDialogCheck(dialogs[dialogId]);
     };
 
-    return state.isAuth ? (
+    return state.joined ? (
         <Messenger
             dialogs={dialogs}
             handleDialogChange={handleDialogChange}
@@ -67,7 +69,7 @@ function App() {
     ) : (
         <ConnectUserWindow
             value={username}
-            setUserName={handleChange}
+            onChange={handleChange}
             connect={handleLogin}
             error={error}
         />

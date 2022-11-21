@@ -1,6 +1,6 @@
 import httpService from "./httpService";
 
-const roomsEndPoint = "rooms/";
+const roomsEndPoint = "/rooms";
 
 const roomsService = {
     get: async () => {
@@ -8,7 +8,8 @@ const roomsService = {
         return data;
     },
     post: async (payload) => {
-        console.log(payload);
+        const { data } = await httpService.post(roomsEndPoint, payload);
+        return data;
     },
 };
 

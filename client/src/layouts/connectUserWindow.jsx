@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ConnectUserWindow = ({ value, connect, setUserName, error }) => {
+const ConnectUserWindow = ({ value, connect, onChange, error }) => {
     const connectWithEnter = (event) => {
         if (event.code === "Enter") {
             event.preventDefault();
@@ -14,7 +14,7 @@ const ConnectUserWindow = ({ value, connect, setUserName, error }) => {
             <div className="input-group mb-3">
                 <input
                     value={value}
-                    onChange={(e) => setUserName(e.target.value)}
+                    onChange={(e) => onChange(e.target.value)}
                     type="text"
                     className="form-control"
                     placeholder="Your's username"
@@ -28,7 +28,7 @@ const ConnectUserWindow = ({ value, connect, setUserName, error }) => {
                     Join
                 </button>
                 {error && (
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                         {error}
                     </div>
                 )}
@@ -41,7 +41,7 @@ ConnectUserWindow.propTypes = {
     value: PropTypes.string,
     error: PropTypes.string,
     connect: PropTypes.func,
-    setUserName: PropTypes.func,
+    onChange: PropTypes.func,
 };
 
 export default ConnectUserWindow;

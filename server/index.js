@@ -4,7 +4,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
 
@@ -22,17 +22,17 @@ app.get("/rooms", (req, res) => {
     res.json(rooms);
 });
 app.post("/rooms", (req, res) => {
-    const { roomId, username } = req.body;
-    if (!rooms.has(roomId)) {
-        rooms.set(
-            roomId,
-            new Map([
-                ["users", new Map()],
-                ["messages", []],
-            ])
-        );
-    }
-    res.json(rooms);
+    const { username } = req.body;
+    const roomId = username.substring(0, 2) + Date.now();
+    console.log(roomId);
+    rooms.set(
+        roomId,
+        new Map([
+            ["users", new Map()],
+            ["messages", []],
+        ])
+    );
+    res.json({ roomId });
 });
 
 io.on("connection", (socket) => {
