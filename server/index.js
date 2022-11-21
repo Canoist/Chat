@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const chalk = require("chalk");
 const { Server } = require("socket.io");
 
 const app = express();
@@ -16,14 +17,25 @@ const io = new Server(server, {
     },
 });
 
-const rooms = [];
+const log = console.log;
+const cyan = chalk.bgCyan;
+
 
 app.get("/rooms", (req, res) => {
     res.json(rooms);
 });
+
+app.get("/rooms/:roomId", (req, res) => {
+    const { roomId } = req.params;
+
+    res.json(rooms);
+});
+
 app.post("/rooms", (req, res) => {
+    const { userName } = req.body;
     let roomId = "Room " + rooms.length;
     rooms.push({
+        owner: userName,
         roomId: roomId,
         roomData: { users: [], messages: [] },
     });
@@ -34,23 +46,12 @@ app.post("/rooms", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    console.log("a user connected", socket.id);
-    socket.on("ROOM:JOIN", ({ roomId, userName }) => {
-        socket.join(roomId);
-        console.log("coonected ", userName);
-        const index = rooms.findIndex((room) => room.roomId === roomId);
-        const users = rooms[index].roomData.users;
-        users.push({
-            socketId: socket.id,
-            user: userName,
-        });
-        socket.broadcast.to(roomId).emit("ROOM:JOINED", users);
-    });
+    log(cyan("a user connected", socket.id));
 });
 
 server.listen(PORT, (err) => {
     if (err) {
         throw Error(err);
     }
-    console.log("Server has been started on port " + PORT);
+    log("Server has been started on port " + PORT);
 });

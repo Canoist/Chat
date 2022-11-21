@@ -1,0 +1,25 @@
+{
+    "name": "chat",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "server": "npm --prefix server run dev",
+        "client": "npm --prefix client run start",
+        "start": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Canoist/Chat.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Canoist/Chat/issues"
+    },
+    "homepage": "https://github.com/Canoist/Chat#readme",
+    "dependencies": {
+        "concurrently": "^7.6.0"
+    }
+}
