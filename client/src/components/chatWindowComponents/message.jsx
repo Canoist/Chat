@@ -1,13 +1,25 @@
 import React from "react";
 import moment from "moment";
+import PropTypes from "prop-types";
 
-const Message = ({ data, username }) => {
-  return (
-    <div className={`chat-wrapper__message ${data.username === username ? "right-side" : ""}`}>
-      <p>{data.username}</p>
-      <p>{moment(data.id).format("LLL")}</p>
-      <span className="btn btn-info text-dark message">{data.message}</span>
-    </div>
-  );
+const Message = ({ data, userName }) => {
+    return (
+        <div
+            className={`chat-wrapper__message ${
+                data.userName === userName ? "right-side" : ""
+            }`}>
+            <p>{data.userName}</p>
+            <p>{moment(data.id).format("LLL")}</p>
+            <span className="btn btn-info text-dark message">
+                {data.message}
+            </span>
+        </div>
+    );
 };
+
+Message.propTypes = {
+    data: PropTypes.object,
+    userName: PropTypes.string,
+};
+
 export default Message;

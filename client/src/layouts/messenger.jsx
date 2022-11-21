@@ -3,18 +3,18 @@ import PropTypes from "prop-types";
 import RoomList from "../components/dialogsComponents/roomList";
 import Chat from "../components/chatWindowComponents/chat";
 
-const Messenger = ({ dialogs, handleDialogChange, dialogCheck }) => {
+const Messenger = ({ rooms, toggleRoom, dialogCheck }) => {
     return (
         <div className="messenger">
-            <RoomList dialogs={dialogs} toggleDialog={handleDialogChange} />
+            <RoomList rooms={rooms} toggleRoom={toggleRoom} />
             <Chat dialog={dialogCheck} />
         </div>
     );
 };
 
 Messenger.propTypes = {
-    dialogs: PropTypes.array,
-    handleDialogChange: PropTypes.func,
+    rooms: PropTypes.array,
+    toggleRoom: PropTypes.func,
     dialogCheck: PropTypes.object,
 };
 

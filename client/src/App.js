@@ -4,7 +4,7 @@ import Messenger from "./layouts/messenger";
 import roomsService from "./services/roomsService";
 import reducer from "./utils/reducer";
 
-const dialogsBase = [
+const roomsBase = [
     {
         _id: 1,
         name: "Chat 1",
@@ -18,35 +18,35 @@ const dialogsBase = [
         name: "Chat 3",
     },
 ];
-const dialogs = dialogsBase.slice();
+const rooms = roomsBase.slice();
 
 function App() {
-    const [dialogCheck, setDialogCheck] = useState(dialogs[0]);
-    const [username, setUsername] = useState("");
+    const [dialogCheck, setDialogCheck] = useState(rooms[0]);
+    const [userName, setUserName] = useState("");
     const [error, setError] = useState("");
     const [state, dispatch] = useReducer(reducer, {
         joined: false,
-        username: null,
+        userName: null,
         roomId: null,
     });
 
     const handleChange = (value) => {
-        setUsername(value);
+        setUserName(value);
         setError("");
     };
 
     const handleLogin = async () => {
-        if (username.length < 2) {
-            setError("Username sholud be more than 1 symbols");
+        if (userName.length < 2) {
+            setError("userName sholud be more than 1 symbols");
             return;
         }
         try {
-            const data = await roomsService.post({ username });
+            const data = await roomsService.post({ userName });
             dispatch({
                 type: "JOIN",
                 payload: {
                     joined: true,
-                    username: username,
+                    userName: userName,
                     roomId: data.roomId,
                 },
             });
@@ -55,20 +55,20 @@ function App() {
         }
     };
 
-    const handleDialogChange = (id) => {
-        const dialogId = dialogs.findIndex((c) => c._id === id);
-        setDialogCheck(dialogs[dialogId]);
+    const handleRoomChange = (id) => {
+        const roomId = rooms.findIndex((c) => c._id === id);
+        setDialogCheck(rooms[roomId]);
     };
 
     return state.joined ? (
         <Messenger
-            dialogs={dialogs}
-            handleDialogChange={handleDialogChange}
+            rooms={rooms}
+            toggleRoom={handleRoomChange}
             dialogCheck={dialogCheck}
         />
     ) : (
         <ConnectUserWindow
-            value={username}
+            value={userName}
             onChange={handleChange}
             connect={handleLogin}
             error={error}

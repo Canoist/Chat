@@ -22,8 +22,8 @@ app.get("/rooms", (req, res) => {
     res.json(rooms);
 });
 app.post("/rooms", (req, res) => {
-    const { username } = req.body;
-    const roomId = username.substring(0, 2) + Date.now();
+    const { userName } = req.body;
+    const roomId = userName.substring(0, 2) + Date.now();
     console.log(roomId);
     rooms.set(
         roomId,
@@ -37,7 +37,9 @@ app.post("/rooms", (req, res) => {
 
 io.on("connection", (socket) => {
     console.log("a user connected", socket.id);
-    socket.on("connection", () => {
+    socket.on("ROOM:JOIN", ({ roomId, userName }) => {
+        socket.join(roomId);
+        rooms.get(roomId).get("users").socket(socket.id, userName);
         console.log("ping");
     });
 });
