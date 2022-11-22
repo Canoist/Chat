@@ -1,5 +1,8 @@
 import { Box } from "@mui/material";
+import { nanoid } from "nanoid";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import localStorageService from "../../services/localStorageService";
 import sxForm from "../sxForm.styles";
 import FieldRequired from "./components/FieldRequired";
 import JoinButton from "./components/JoinButton";
@@ -9,6 +12,7 @@ import UserNameField from "./components/UserNameField";
 export const Login = () => {
     const [userName, setUserName] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,7 +20,12 @@ export const Login = () => {
             setError("Name must be more than 2 symbols");
             return;
         }
-        console.log(userName);
+        const userId = nanoid();
+        const roomId = nanoid();
+
+        localStorageService.setUserData({ userName, userId, roomId });
+
+        navigate("/" + roomId);
     };
 
     const handleChange = (e) => {

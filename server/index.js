@@ -7,8 +7,8 @@ const { Server } = require("socket.io");
 const {
     logBgCyan,
     logGreen,
-    logRed,
     underline,
+    bold,
 } = require("./config/utils/styledLogs");
 const errorHandler = require("./sockets/handlers/errorHandler");
 
@@ -47,13 +47,13 @@ server.listen(PORT, (err) => {
     if (err) {
         throw Error(err);
     }
-    logBgCyan("Server has been started on port " + PORT);
+    logBgCyan("- Server has been started on port " + PORT);
 });
 
 async function startDB() {
     try {
         await mongoose.connect(config.get("MONGO_URI"));
-        logGreen(underline(`MongoDB connected`));
+        logGreen(underline(`- MongoDB connected`));
     } catch (error) {
         errorHandler(error);
         process.exit(1);
