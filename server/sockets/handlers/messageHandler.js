@@ -1,6 +1,19 @@
-const { logMagenta, logBgWhite } = require("../../config/utils/styledLogs");
+const {
+    logMagenta,
+    logBgWhite,
+    logBgRed,
+} = require("../../config/utils/styledLogs");
+const Message = require("../../models/Message");
 
 const messages = {};
+
+// const message = {
+//     messageId: string,
+//     content: string,
+//     roomId: string,
+//     userId: strng,
+//     userName: string,
+// };
 
 module.exports = () => {
     logMagenta("working with messageS");
@@ -10,21 +23,46 @@ module.exports = () => {
         io.to(roomId).emit("message_list:update", messages[roomId]);
     };
 
-    socket.on("message:get", () => {
-        logBgWhite("Get messages from DB");
+    socket.on("message:get", async () => {
+        try {
+            const messagesFromDB = await Message.find({ roomId });
+
+            messages[roomId] = messagesFromDB;
+
+            updateMessageList();
+        } catch (error) {
+            logBgRed("From message:get - ", error);
+        }
     });
 
     socket.on("message:add", (message) => {
         logBgWhite("Create message at DB");
+        try {
+            Message.create(message);
+            // for client side
+            message.createdAt = Date.now();
+
+            messages[roomId].push(message);
+
+            updateMessageList();
+        } catch (error) {
+            logBgRed("From message:add - ", error);
+        }
     });
 
     socket.on("message:remove", (message) => {
-        const { messageId, messageType, textOrPathToFile } = message;
+        const { messageId } = message;
         logBgWhite("Delete message from DB");
-        messages[roomId] = messages[roomId].filter(
-            (message) => message.messageId !== messageId
-        );
+        try {
+            Message.deleteOne({ messageId });
 
-        updateMessageList();
+            messages[roomId] = messages[roomId].filter(
+                (message) => message.messageId !== messageId
+            );
+
+            updateMessageList();
+        } catch (error) {
+            logBgRed("From message:remove - ", error);
+        }
     });
 };
