@@ -1,9 +1,6 @@
-const { logMagenta } = require("../../config/utils/styledLogs");
-
 const users = {};
 
 module.exports = (io, socket) => {
-    logMagenta("some actions with users");
     const { roomId, userName } = socket;
 
     if (!users[roomId]) {

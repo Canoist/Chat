@@ -8,9 +8,9 @@ const {
     logBgCyan,
     logGreen,
     underline,
-    bold,
 } = require("./config/utils/styledLogs");
 const errorHandler = require("./sockets/handlers/errorHandler");
+const socketIO = require("./sockets/socketIO");
 
 const app = express();
 app.use(
@@ -25,22 +25,13 @@ const PORT = config.get("PORT") || 8000;
 
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: config.get("ORIGIN"),
     },
-});
-
-app.get("/:roomId", (req, res) => {
-    res.json(rooms);
-});
-
-app.get("/:roomId", (req, res) => {
-    const { roomId } = req.params;
-
-    res.json(rooms);
 });
 
 io.on("connection", (socket) => {
     logBgCyan("a user connected", socket.id);
+    socketIO(io, socket);
 });
 
 server.listen(PORT, (err) => {

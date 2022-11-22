@@ -1,8 +1,4 @@
-const {
-    logMagenta,
-    logBgWhite,
-    logBgRed,
-} = require("../../config/utils/styledLogs");
+const { logBgWhite } = require("../../config/utils/styledLogs");
 const Message = require("../../models/Message");
 const errorHandler = require("./errorHandler");
 
@@ -16,8 +12,7 @@ const messages = {};
 //     userName: string,
 // };
 
-module.exports = () => {
-    logMagenta("working with messageS");
+module.exports = (io, socket) => {
     const { roomId } = socket;
 
     const updateMessageList = () => {
@@ -48,11 +43,10 @@ module.exports = () => {
             updateMessageList();
         } catch (error) {
             errorHandler(error);
-
         }
     });
 
-    socket.on("message:remove", (message) => {
+    socket.on("message:delete", (message) => {
         const { messageId } = message;
         logBgWhite("Delete message from DB");
         try {
