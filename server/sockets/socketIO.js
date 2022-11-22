@@ -15,7 +15,7 @@ module.exports = (io, socket) => {
     socket.join(roomId);
     socket.emit("rooms:update", rooms);
 
-    userHandler(io, socket);
+    userHandler(io, socket, rooms);
 
     messageHandler(io, socket);
 };

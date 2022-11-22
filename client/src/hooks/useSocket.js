@@ -29,6 +29,7 @@ const useSocket = () => {
 
         socket.on("rooms:update", (rooms) => {
             setRooms(rooms);
+            console.log("changed rooms");
         });
 
         socket.on("user_list:update", (users) => {

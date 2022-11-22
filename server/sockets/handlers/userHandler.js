@@ -1,6 +1,8 @@
+const { logBgRed, logBgMagenta } = require("../../config/utils/styledLogs");
+
 const users = {};
 
-module.exports = (io, socket) => {
+module.exports = (io, socket, rooms) => {
     const { roomId, userName } = socket;
 
     if (!users[roomId]) {
@@ -22,7 +24,9 @@ module.exports = (io, socket) => {
     });
 
     socket.on("disconnect", () => {
-        if (!users[roomId]) return;
+        if (!users[roomId]) {
+            return;
+        }
 
         socket.to(roomId).emit("log", `User ${userName} disconnected`);
 
@@ -31,5 +35,19 @@ module.exports = (io, socket) => {
         );
 
         updateUserList();
+
+        logBgRed("a user disconnected " + socket.userName);
+        const index = rooms.findIndex(
+            (room) => room.author === socket.userName
+        );
+        if (rooms[index]) {
+            logBgMagenta(rooms[index]);
+            socket.emit(
+                "log",
+                `Room with roomId ${rooms[index].roomId} was closed`
+            );
+            rooms.splice(index, 1);
+            socket.emit("rooms:update", rooms);
+        }
     });
 };
