@@ -10,6 +10,7 @@ const {
     logRed,
     underline,
 } = require("./config/utils/styledLogs");
+const errorHandler = require("./sockets/handlers/errorHandler");
 
 const app = express();
 app.use(
@@ -54,7 +55,7 @@ async function startDB() {
         await mongoose.connect(config.get("MONGO_URI"));
         logGreen(underline(`MongoDB connected`));
     } catch (error) {
-        logRed(error.message);
+        errorHandler(error);
         process.exit(1);
     }
 }

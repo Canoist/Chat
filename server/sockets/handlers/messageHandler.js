@@ -4,6 +4,7 @@ const {
     logBgRed,
 } = require("../../config/utils/styledLogs");
 const Message = require("../../models/Message");
+const errorHandler = require("./errorHandler");
 
 const messages = {};
 
@@ -31,7 +32,7 @@ module.exports = () => {
 
             updateMessageList();
         } catch (error) {
-            logBgRed("From message:get - ", error);
+            errorHandler(error);
         }
     });
 
@@ -46,7 +47,8 @@ module.exports = () => {
 
             updateMessageList();
         } catch (error) {
-            logBgRed("From message:add - ", error);
+            errorHandler(error);
+
         }
     });
 
@@ -62,7 +64,7 @@ module.exports = () => {
 
             updateMessageList();
         } catch (error) {
-            logBgRed("From message:remove - ", error);
+            errorHandler(error);
         }
     });
 };
