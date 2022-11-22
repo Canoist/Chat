@@ -1,10 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
-const chalk = require("chalk");
 const config = require("config");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
+const {
+    logBgCyan,
+    logGreen,
+    logRed,
+    underline,
+} = require("./config/utils/styledLogs");
 
 const app = express();
 app.use(
@@ -22,10 +27,6 @@ const io = new Server(server, {
         origin: "*",
     },
 });
-
-const logBgCyan = (data) => console.log(chalk.bgCyan(data));
-const logRed = (data) => console.log(chalk.red(data));
-const logGreen = (data) => console.log(chalk.bgGreen(data));
 
 app.get("/:roomId", (req, res) => {
     res.json(rooms);
@@ -51,7 +52,7 @@ server.listen(PORT, (err) => {
 async function startDB() {
     try {
         await mongoose.connect(config.get("MONGO_URI"));
-        logGreen(`MongoDB connected`);
+        logGreen(underline(`MongoDB connected`));
     } catch (error) {
         logRed(error.message);
         process.exit(1);
