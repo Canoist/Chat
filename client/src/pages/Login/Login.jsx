@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import sxForm from "../sxForm.styles";
@@ -13,6 +14,14 @@ export const Login = () => {
     const [userName, setUserName] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const userData = localStorageService.getUserData();
+        if (userData) {
+            navigate(userData.roomId);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

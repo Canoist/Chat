@@ -1,26 +1,26 @@
-const USERID_KEY = "user-local-id";
+const USER_DATA = "user-data";
 
 export function setUserData(user) {
-    localStorage.setItem(USERID_KEY, user);
+    localStorage.setItem(USER_DATA, JSON.stringify(user));
 }
 
 export function removeTokens() {
-    localStorage.removeItem(USERID_KEY);
+    localStorage.removeItem(USER_DATA);
 }
 
-export function getUserId() {
-    return localStorage.getItem(USERID_KEY);
+export function getUserData() {
+    return JSON.parse(localStorage.getItem(USER_DATA));
 }
 
 export function changeRoomAtToken(roomId) {
-    const user = localStorage.getItem(USERID_KEY);
+    const user = localStorage.getItem(USER_DATA);
     user.roomId = roomId;
     setUserData(user);
 }
 
 const localStorageService = {
     setUserData,
-    getUserId,
+    getUserData,
     removeTokens,
 };
 
