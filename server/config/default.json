@@ -1,0 +1,5 @@
+{
+    "PORT": 8000,
+    "MONGO_URI": "mongodb+srv://Canoist:a1s2d3f4g5@cluster-messages.yfxzzly.mongodb.net/?retryWrites=true&w=majority",
+    "ORIGIN": "http://localhost:3000"
+}

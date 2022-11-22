@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import React from "react";
 
 const Chat = () => {
-    return <></>;
+    return <div>Chat</div>;
 };
 export default Chat;
