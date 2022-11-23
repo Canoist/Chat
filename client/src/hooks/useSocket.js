@@ -37,20 +37,19 @@ const useSocket = () => {
 
             socket.on("user_list:update", (users) => {
                 setUsers(users);
-                console.log("users: ",users);
+                console.log("users: ", users);
             });
 
             socket.on("message_list:update", (messages) => {
                 setMessages(messages);
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [socket]);
+    }, [socket, userData]);
 
-    const changeRoom = () => {
-        setUserData(() => localStorageService.getUserData());
-        socket.emit("user:add", userData);
-    };
+    // const changeRoom = () => {
+    //     setUserData(() => localStorageService.getUserData());
+    //     socket.emit("user:add", userData);
+    // };
 
     const sendMessage = (message) => {
         socket.emit("message:add", message);
@@ -67,7 +66,7 @@ const useSocket = () => {
         log,
         sendMessage,
         deleteMessage,
-        changeRoom,
+        setUserData,
     };
 };
 

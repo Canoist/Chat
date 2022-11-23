@@ -15,6 +15,7 @@ module.exports = (io, socket, rooms) => {
 
     socket.on("user:add", (user) => {
         socket.to(roomId).emit("log", `User ${userName} connected`);
+
         user.socketId = socket.id;
 
         users[roomId].push(user);
@@ -36,17 +37,17 @@ module.exports = (io, socket, rooms) => {
         updateUserList();
 
         logBgRed("a user disconnected " + socket.userName);
-        const index = rooms.findIndex(
-            (room) => room.author === socket.userName
-        );
-        if (rooms[index]) {
-            logBgMagenta(rooms[index].roomId);
-            socket.emit(
-                "log",
-                `Room with roomId ${rooms[index].roomId} was closed`
-            );
-            rooms.splice(index, 1);
-            io.emit("rooms:update", rooms);
-        }
+        // const index = rooms.findIndex(
+        //     (room) => room.author === socket.userName
+        // );
+        // if (rooms[index]) {
+        //     logBgMagenta(rooms[index].roomId);
+        //     socket.emit(
+        //         "log",
+        //         `Room with roomId ${rooms[index].roomId} was closed`
+        //     );
+        //     rooms.splice(index, 1);
+        //     io.emit("rooms:update", rooms);
+        // }
     });
 };

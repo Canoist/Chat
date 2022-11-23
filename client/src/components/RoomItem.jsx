@@ -8,11 +8,12 @@ import useSocket from "../hooks/useSocket";
 const RoomItem = ({ room }) => {
     const userData = localStorageService.getUserData();
     const navigate = useNavigate();
-    const { changeRoom } = useSocket();
+    const { setUserData } = useSocket();
 
     const handleClick = () => {
         localStorageService.changeRoom(room.roomId);
-        changeRoom();
+        setUserData(localStorageService.getUserData());
+
         navigate("/" + room.roomId);
     };
 

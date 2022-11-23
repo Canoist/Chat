@@ -3,9 +3,14 @@ import React from "react";
 import MessageList from "../../components/MessageList";
 import RoomsList from "../../components/RoomsList";
 import useSocket from "../../hooks/useSocket";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Chat = () => {
-    const { messages, users } = useSocket();
+    const { messages, users, log } = useSocket();
+    if (log) {
+        toast(log);
+    }
     return (
         <Box
             sx={{
@@ -26,6 +31,7 @@ const Chat = () => {
                 <RoomsList />
                 <MessageList />
             </Stack>
+            <ToastContainer />
         </Box>
     );
 };
