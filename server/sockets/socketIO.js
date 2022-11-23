@@ -12,8 +12,8 @@ module.exports = (io, socket) => {
     if (!rooms.some((room) => room.roomId === roomId)) {
         rooms.push({ roomId, author: userName });
     }
+    io.emit("rooms:update", rooms);
     socket.join(roomId);
-    socket.emit("rooms:update", rooms);
 
     userHandler(io, socket, rooms);
 

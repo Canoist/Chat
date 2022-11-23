@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import localStorageService from "../services/localStorageService";
 
@@ -7,40 +7,44 @@ const useSocket = () => {
     const [rooms, setRooms] = useState([]);
     const [messages, setMessages] = useState([]);
     const [log, setLog] = useState(null);
+    const [socket, setSocket] = useState(null);
     const userData = localStorageService.getUserData();
 
-    const { current: socket } = useRef(
-        io("http://localhost:8000", {
-            query: {
-                roomId: userData.roomId,
-                userName: userData.userName,
-            },
-        })
-    );
-
     useEffect(() => {
-        socket.emit("user:add", userData);
+        if (socket === null) {
+            setSocket(
+                io("http://localhost:8000", {
+                    query: {
+                        roomId: userData.roomId,
+                        userName: userData.userName,
+                    },
+                })
+            );
+        }
+        if (socket) {
+            socket.emit("user:add", userData);
 
-        socket.emit("message:get");
+            socket.emit("message:get");
 
-        socket.on("log", (log) => {
-            setLog(log);
-        });
+            socket.on("log", (log) => {
+                setLog(log);
+            });
 
-        socket.on("rooms:update", (rooms) => {
-            setRooms(rooms);
-            console.log("changed rooms");
-        });
+            socket.on("rooms:update", (rooms) => {
+                setRooms(rooms);
+                console.log("changed rooms", rooms.length);
+            });
 
-        socket.on("user_list:update", (users) => {
-            setUsers(users);
-        });
+            socket.on("user_list:update", (users) => {
+                setUsers(users);
+            });
 
-        socket.on("message_list:update", (messages) => {
-            setMessages(messages);
-        });
+            socket.on("message_list:update", (messages) => {
+                setMessages(messages);
+            });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [socket]);
 
     const sendMessage = (message) => {
         socket.emit("message:add", message);

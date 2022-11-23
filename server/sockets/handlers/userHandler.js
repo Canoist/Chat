@@ -41,13 +41,13 @@ module.exports = (io, socket, rooms) => {
             (room) => room.author === socket.userName
         );
         if (rooms[index]) {
-            logBgMagenta(rooms[index]);
+            logBgMagenta(rooms[index].roomId);
             socket.emit(
                 "log",
                 `Room with roomId ${rooms[index].roomId} was closed`
             );
             rooms.splice(index, 1);
-            socket.emit("rooms:update", rooms);
+            io.emit("rooms:update", rooms);
         }
     });
 };

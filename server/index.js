@@ -4,11 +4,7 @@ const http = require("http");
 const config = require("config");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
-const {
-    logBgCyan,
-    logGreen,
-    underline,
-} = require("./config/utils/styledLogs");
+const { logBgCyan, logGreen, underline } = require("./config/utils/styledLogs");
 const errorHandler = require("./sockets/handlers/errorHandler");
 const socketIO = require("./sockets/socketIO");
 
@@ -27,6 +23,7 @@ const io = new Server(server, {
     cors: {
         origin: config.get("ORIGIN"),
     },
+    serveClient: false,
 });
 
 io.on("connection", (socket) => {
