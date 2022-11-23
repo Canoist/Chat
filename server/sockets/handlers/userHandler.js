@@ -15,7 +15,6 @@ module.exports = (io, socket, rooms) => {
 
     socket.on("user:add", (user) => {
         socket.to(roomId).emit("log", `User ${userName} connected`);
-
         user.socketId = socket.id;
 
         users[roomId].push(user);

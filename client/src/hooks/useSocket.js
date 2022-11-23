@@ -8,8 +8,8 @@ const useSocket = () => {
     const [messages, setMessages] = useState([]);
     const [log, setLog] = useState(null);
     const [socket, setSocket] = useState(null);
-    const userData = localStorageService.getUserData();
-    
+    const [userData, setUserData] = useState(localStorageService.getUserData());
+
     useEffect(() => {
         if (socket === null) {
             setSocket(
@@ -21,6 +21,7 @@ const useSocket = () => {
                 })
             );
         }
+
         if (socket) {
             socket.emit("user:add", userData);
 
@@ -32,11 +33,11 @@ const useSocket = () => {
 
             socket.on("rooms:update", (rooms) => {
                 setRooms(rooms);
-                console.log("changed rooms", rooms.length);
             });
 
             socket.on("user_list:update", (users) => {
                 setUsers(users);
+                console.log("users: ",users);
             });
 
             socket.on("message_list:update", (messages) => {
@@ -46,6 +47,11 @@ const useSocket = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [socket]);
 
+    const changeRoom = () => {
+        setUserData(() => localStorageService.getUserData());
+        socket.emit("user:add", userData);
+    };
+
     const sendMessage = (message) => {
         socket.emit("message:add", message);
     };
@@ -54,7 +60,15 @@ const useSocket = () => {
         socket.emit("message:delete", message);
     };
 
-    return { users, rooms, messages, log, sendMessage, deleteMessage };
+    return {
+        users,
+        rooms,
+        messages,
+        log,
+        sendMessage,
+        deleteMessage,
+        changeRoom,
+    };
 };
 
 export default useSocket;

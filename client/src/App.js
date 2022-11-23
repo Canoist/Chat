@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Chat, Login } from "./pages";
+import { ChatWrapper, Login } from "./pages";
 
 function App() {
     return (
@@ -8,7 +8,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route path="/:roomId" element={<Chat />} />
+                    <Route path="/:roomId" element={<ChatWrapper />} />
                 </Routes>
             </BrowserRouter>
         </>

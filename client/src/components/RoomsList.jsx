@@ -1,7 +1,7 @@
 import React from "react";
 import useSocket from "../hooks/useSocket";
-import { List, ListItemButton, ListItemText, Typography } from "@mui/material";
-import localStorageService from "../services/localStorageService";
+import { List, Typography } from "@mui/material";
+import RoomItem from "./RoomItem";
 
 //  const rooms= [
 //      {
@@ -12,7 +12,6 @@ import localStorageService from "../services/localStorageService";
 
 const RoomsList = () => {
     const { rooms } = useSocket();
-    const userData = localStorageService.getUserData();
 
     return (
         <List
@@ -21,11 +20,7 @@ const RoomsList = () => {
                 Room list
             </Typography>
             {rooms.map((room) => (
-                <ListItemButton
-                    key={room.roomId}
-                    selected={room.roomId === userData.roomId}>
-                    <ListItemText primary={`Room of ${room.author}`} />
-                </ListItemButton>
+                <RoomItem key={room.roomId} room={room} />
             ))}
         </List>
     );

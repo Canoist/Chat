@@ -4,7 +4,7 @@ import MessageList from "../../components/MessageList";
 import RoomsList from "../../components/RoomsList";
 import useSocket from "../../hooks/useSocket";
 
-export const Chat = () => {
+const Chat = () => {
     const { messages, users } = useSocket();
     return (
         <Box
@@ -17,7 +17,6 @@ export const Chat = () => {
                 backgroundColor: "#eeeeee",
                 p: 2,
             }}>
-            Chat
             <p>Messages: {messages.length}</p>
             <p>Users: {users.length}</p>
             <Stack
@@ -30,3 +29,5 @@ export const Chat = () => {
         </Box>
     );
 };
+
+export default Chat;

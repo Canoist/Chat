@@ -1,2 +1,2 @@
 export * from "./Login/Login";
-export * from "./Chat/Chat";
+export * from "./Chat/ChatWrapper";
