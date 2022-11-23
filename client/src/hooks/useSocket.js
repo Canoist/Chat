@@ -9,7 +9,7 @@ const useSocket = () => {
     const [log, setLog] = useState(null);
     const [socket, setSocket] = useState(null);
     const userData = localStorageService.getUserData();
-
+    
     useEffect(() => {
         if (socket === null) {
             setSocket(
